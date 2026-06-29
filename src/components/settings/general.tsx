@@ -12,12 +12,13 @@ import {
 } from "@/components/ui/drawer";
 import { Item, ItemActions, ItemContent, ItemDescription, ItemHeader, ItemTitle } from "@/components/ui/item";
 import { NumberInput } from '@/components/ui/number-input';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from "@/lib/utils";
 import { KeyEventState, useKeyEvent } from "@/stores/key_event";
 import { KeyStyleState, useKeyStyle } from "@/stores/key_style";
-import { ArrowHorizontalIcon, ArrowVerticalIcon, FilterHorizontalIcon, FilterIcon, LayerIcon, ToggleOnIcon } from "@hugeicons/core-free-icons";
+import { ArrowHorizontalIcon, ArrowVerticalIcon, FilterHorizontalIcon, FilterIcon, KeyboardIcon, LayerIcon, ToggleOnIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { CustomFilter } from '../custom-filter';
 
@@ -28,7 +29,8 @@ export const GeneralSettings = () => {
         allowedKeys,
         showEventHistory, setShowEventHistory,
         maxHistory, setMaxHistory,
-        toggleShortcut, setToggleShortcut
+        toggleShortcut, setToggleShortcut,
+        keyboardLayout, setKeyboardLayout
     } = useKeyEvent();
 
     const direction = useKeyStyle(state => state.appearance.flexDirection);
@@ -79,6 +81,33 @@ export const GeneralSettings = () => {
                     <ToggleGroupItem value="modifiers" aria-label="Modifiers Only">Hotkeys</ToggleGroupItem>
                     <ToggleGroupItem value="custom" aria-label="Custom Filter">Custom</ToggleGroupItem>
                 </ToggleGroup>
+            </ItemActions>
+        </Item>
+
+        <Item variant="muted">
+            <ItemContent>
+                <ItemTitle>
+                    <HugeiconsIcon icon={KeyboardIcon} size="1em" /> Keyboard Layout
+                </ItemTitle>
+                <ItemDescription>
+                    Select the keyboard layout for accurate key display
+                </ItemDescription>
+            </ItemContent>
+            <ItemActions>
+                <Select
+                    value={keyboardLayout}
+                    onValueChange={(value) => setKeyboardLayout(value as "us" | "es")}
+                >
+                    <SelectTrigger className="w-32">
+                        <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                        <SelectGroup>
+                            <SelectItem value="us">US English</SelectItem>
+                            <SelectItem value="es">Spanish</SelectItem>
+                        </SelectGroup>
+                    </SelectContent>
+                </Select>
             </ItemActions>
         </Item>
 
