@@ -36,7 +36,7 @@ export interface KeyEventState {
     maxHistory: number;
     lingerDurationMs: number;
     toggleShortcut: string[];
-    keyboardLayout: "us" | "es";
+    keyboardLayout: string;
 }
 
 interface KeyEventActions {
@@ -49,7 +49,7 @@ interface KeyEventActions {
     // setShowMouseEvents(value: KeyEventState["showMouseEvents"]): void;
     setLingerDurationMs(value: KeyEventState["lingerDurationMs"]): void;
     setToggleShortcut(value: KeyEventState["toggleShortcut"]): void;
-    setKeyboardLayout(value: KeyEventState["keyboardLayout"]): void;
+    setKeyboardLayout(value: string): void;
     // ───────────── event actions ─────────────
     onEvent(event: EventPayload): void;
     onKeyPress(event: RawKeyEvent): void;
@@ -107,7 +107,7 @@ const createKeyEventStore = createSyncedStore<KeyEventStore>(
         setToggleShortcut(value: string[]) {
             set({ toggleShortcut: value });
         },
-        setKeyboardLayout(value: "us" | "es") {
+        setKeyboardLayout(value: string) {
             set({ keyboardLayout: value });
         },
         onEvent(event: EventPayload) {

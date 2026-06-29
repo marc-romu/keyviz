@@ -441,35 +441,18 @@ export const keymaps: Record<string, DisplayData> = {
 };
 
 // ───────────── Layout-specific overrides ─────────────
-export type KeyboardLayout = "us" | "es";
+export type { KeyboardLayout } from "@/lib/layouts";
 
-const layoutOverrides: Record<string, Partial<Record<KeyboardLayout, Partial<DisplayData>>>> = {
-    BackQuote: { es: { label: "\u00BA", symbol: "\u00AA" } },
-    Num2: { es: { label: "2", symbol: '"' } },
-    Num3: { es: { label: "3", symbol: "\u00B7" } },
-    Num6: { es: { label: "6", symbol: "&" } },
-    Num7: { es: { label: "7", symbol: "/" } },
-    Num8: { es: { label: "8", symbol: "(" } },
-    Num9: { es: { label: "9", symbol: ")" } },
-    Num0: { es: { label: "0", symbol: "=" } },
-    Minus: { es: { label: "'", symbol: "?" } },
-    Equal: { es: { label: "\u00A1", symbol: "\u00BF" } },
-    LeftBracket: { es: { label: "`", symbol: "^" } },
-    RightBracket: { es: { label: "+", symbol: "*" } },
-    BackSlash: { es: { label: "\u00E7", symbol: "}" } },
-    SemiColon: { es: { label: "\u00F1", symbol: "\u00D1" } },
-    Quote: { es: { label: "\u00B4", symbol: "\u00A8" } },
-    Comma: { es: { label: ",", symbol: ";" } },
-    Dot: { es: { label: ".", symbol: ":" } },
-    Slash: { es: { label: "-", symbol: "_" } },
-};
+import { layoutMap } from "@/lib/layouts";
 
-export function getKeyDisplay(name: string, layout: KeyboardLayout): DisplayData {
+export function getKeyDisplay(name: string, layout: string): DisplayData {
     const base = keymaps[name];
     if (!base) return { label: name };
-    if (layout === "us") return base;
 
-    const override = layoutOverrides[name]?.[layout];
+    const layoutDef = layoutMap[layout];
+    if (!layoutDef) return base;
+
+    const override = layoutDef.overrides[name];
     if (!override) return base;
 
     return { ...base, ...override };

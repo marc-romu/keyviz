@@ -16,6 +16,7 @@ import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectVa
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { cn } from "@/lib/utils";
+import { layouts } from "@/lib/layouts";
 import { KeyEventState, useKeyEvent } from "@/stores/key_event";
 import { KeyStyleState, useKeyStyle } from "@/stores/key_style";
 import { ArrowHorizontalIcon, ArrowVerticalIcon, FilterHorizontalIcon, FilterIcon, KeyboardIcon, LayerIcon, ToggleOnIcon } from "@hugeicons/core-free-icons";
@@ -96,15 +97,18 @@ export const GeneralSettings = () => {
             <ItemActions>
                 <Select
                     value={keyboardLayout}
-                    onValueChange={(value) => setKeyboardLayout(value as "us" | "es")}
+                    onValueChange={(value) => setKeyboardLayout(value)}
                 >
                     <SelectTrigger className="w-32">
                         <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
                         <SelectGroup>
-                            <SelectItem value="us">US English</SelectItem>
-                            <SelectItem value="es">Spanish</SelectItem>
+                            {layouts.map((layout) => (
+                                <SelectItem key={layout.id} value={layout.id}>
+                                    {layout.name}
+                                </SelectItem>
+                            ))}
                         </SelectGroup>
                     </SelectContent>
                 </Select>
